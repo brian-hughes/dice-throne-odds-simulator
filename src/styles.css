@@ -1,0 +1,21 @@
+* { box-sizing: border-box; }
+body { font-family: system-ui, Arial, sans-serif; background: #f4f6fb; padding: 20px; }
+#app { max-width: 1200px; margin: 0 auto; }
+h1 { text-align: center; margin-bottom: 12px }
+h2 { margin-top: 20px; margin-bottom: 12px; }
+.controls { display:flex; gap:12px; align-items:center; margin-bottom:12px }
+select { padding:8px; font-size:14px }
+.dice-row { display:flex; gap:12px; margin-bottom: 12px }
+.die-box { background: white; border-radius:8px; padding:8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.face-buttons { display:flex; gap:6px; flex-wrap:wrap }
+.face-btn, .random-btn { padding:6px 10px; border-radius:6px; border:1px solid #ddd; cursor:pointer; background: #fff }
+.face-btn.active, .random-btn.active { background:#3b82f6; color:white; border-color: #3b82f6 }
+.roll-button { display:block; margin: 12px 0; padding:10px 14px; font-weight:700; background:#10b981; color:white; border:none; border-radius:8px; cursor:pointer }
+.roll-button:hover { background:#059669 }
+.results-table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06) }
+.results-table th { background: #f3f4f6; font-weight: 600; padding: 12px; text-align: left; border-bottom: 2px solid #e5e7eb }
+.results-table td { padding: 12px; border-bottom: 1px solid #e5e7eb }
+.results-table tr:last-child td { border-bottom: none }
+.results-table tr:hover { background: #f9fafb }
+.abilities { margin-top:8px }
+
