@@ -17,6 +17,19 @@ export function createApp(root: HTMLElement) {
   heroSelect.id = 'hero-select'
   controls.appendChild(heroSelect)
 
+  // Trials dropdown
+  const trialsSelect = document.createElement('select')
+  trialsSelect.id = 'trials-select'
+  const trialOptions = [1, 10, 100, 1000, 10000]
+  trialOptions.forEach(t => {
+    const opt = document.createElement('option')
+    opt.value = String(t)
+    opt.textContent = `${t} Trials`
+    if (t === TRIALS) opt.selected = true
+    trialsSelect.appendChild(opt)
+  })
+  controls.appendChild(trialsSelect)
+
   // Logging toggle
   const loggingLabel = document.createElement('label')
   loggingLabel.className = 'logging-toggle'
@@ -54,7 +67,7 @@ export function createApp(root: HTMLElement) {
   results.id = 'results'
   root.appendChild(results)
 
-  return { heroSelect, heroInfo, diceArea, modifiersArea, rollBtn, logsArea, results, loggingCheckbox }
+  return { heroSelect, trialsSelect, heroInfo, diceArea, modifiersArea, rollBtn, logsArea, results, loggingCheckbox }
 }
 
 export function populateHeroOptions(select: HTMLSelectElement, heroes: Hero[]) {
@@ -258,10 +271,10 @@ function formatRequiredRolls(condition: AbilityCondition): string {
   return '—'
 }
 
-export function renderModifiers(container: HTMLElement): { sixItEnabled: () => boolean } {
+export function renderModifiers(container: HTMLElement): { sixItEnabled: () => boolean; soWildEnabled: () => boolean; twiceAsWildEnabled: () => boolean } {
   container.innerHTML = ''
   const title = document.createElement('h2')
-  title.textContent = 'Dice Modifiers'
+  title.textContent = 'Dice Modifiers (Pick One)'
   container.appendChild(title)
 
   const modifiersBox = document.createElement('div')
@@ -281,10 +294,42 @@ export function renderModifiers(container: HTMLElement): { sixItEnabled: () => b
   sixItLabel.appendChild(sixItText)
 
   modifiersBox.appendChild(sixItLabel)
+
+  // So Wild toggle
+  const soWildLabel = document.createElement('label')
+  soWildLabel.className = 'modifier-toggle'
+
+  const soWildCheckbox = document.createElement('input')
+  soWildCheckbox.type = 'checkbox'
+  soWildCheckbox.id = 'so-wild-toggle'
+  soWildLabel.appendChild(soWildCheckbox)
+
+  const soWildText = document.createElement('span')
+  soWildText.textContent = 'So Wild: Change any 1 die to any face'
+  soWildLabel.appendChild(soWildText)
+
+  modifiersBox.appendChild(soWildLabel)
+
+  // Twice as Wild toggle
+  const twiceAsWildLabel = document.createElement('label')
+  twiceAsWildLabel.className = 'modifier-toggle'
+
+  const twiceAsWildCheckbox = document.createElement('input')
+  twiceAsWildCheckbox.type = 'checkbox'
+  twiceAsWildCheckbox.id = 'twice-as-wild-toggle'
+  twiceAsWildLabel.appendChild(twiceAsWildCheckbox)
+
+  const twiceAsWildText = document.createElement('span')
+  twiceAsWildText.textContent = 'Twice as Wild: Change any 2 dice to any faces (can be slow at high trial counts)'
+  twiceAsWildLabel.appendChild(twiceAsWildText)
+
+  modifiersBox.appendChild(twiceAsWildLabel)
   container.appendChild(modifiersBox)
 
   return {
-    sixItEnabled: () => sixItCheckbox.checked
+    sixItEnabled: () => sixItCheckbox.checked,
+    soWildEnabled: () => soWildCheckbox.checked,
+    twiceAsWildEnabled: () => twiceAsWildCheckbox.checked
   }
 }
 

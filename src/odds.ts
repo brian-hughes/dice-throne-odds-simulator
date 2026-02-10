@@ -23,7 +23,7 @@ export function dieNumberToFace(dieNum: number, hero: Hero): Face {
 }
 
 // Fixed dice array: either a die number (1-6) or null meaning random this roll
-export function simulate(hero: Hero, fixedDice: Array<number | null>, trials = TRIALS, sixItEnabled = false, enableLogging = false): SimulationResult {
+export function simulate(hero: Hero, fixedDice: Array<number | null>, trials = TRIALS, sixItEnabled = false, enableLogging = false, soWildEnabled = false, twiceAsWildEnabled = false): SimulationResult {
   const results: Map<string, number> = new Map()
   hero.abilities.forEach(a => results.set(a.name, 0))
 
@@ -59,6 +59,45 @@ export function simulate(hero: Hero, fixedDice: Array<number | null>, trials = T
             activated = true
             break
           }
+        }
+      }
+
+      // Check So Wild: swap 1 die to any value (1-6)
+      if (!activated && soWildEnabled) {
+        for (let dieIdx = 0; dieIdx < 5; dieIdx++) {
+          for (let newVal = 1; newVal <= 6; newVal++) {
+            const modifiedNumbers = [...rolledNumbers]
+            modifiedNumbers[dieIdx] = newVal
+            const modifiedFaces = modifiedNumbers.map(n => dieNumberToFace(n, hero))
+            if (checkAbilityActivated(a, modifiedFaces, modifiedNumbers)) {
+              activated = true
+              break
+            }
+          }
+          if (activated) break
+        }
+      }
+
+      // Check Twice as Wild: swap 2 dice to any values (1-6)
+      if (!activated && twiceAsWildEnabled) {
+        for (let die1 = 0; die1 < 5; die1++) {
+          for (let die2 = die1 + 1; die2 < 5; die2++) {
+            for (let val1 = 1; val1 <= 6; val1++) {
+              for (let val2 = 1; val2 <= 6; val2++) {
+                const modifiedNumbers = [...rolledNumbers]
+                modifiedNumbers[die1] = val1
+                modifiedNumbers[die2] = val2
+                const modifiedFaces = modifiedNumbers.map(n => dieNumberToFace(n, hero))
+                if (checkAbilityActivated(a, modifiedFaces, modifiedNumbers)) {
+                  activated = true
+                  break
+                }
+              }
+              if (activated) break
+            }
+            if (activated) break
+          }
+          if (activated) break
         }
       }
 
