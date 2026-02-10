@@ -3,8 +3,20 @@ body { font-family: system-ui, Arial, sans-serif; background: #f4f6fb; padding: 
 #app { max-width: 1200px; margin: 0 auto; }
 h1 { text-align: center; margin-bottom: 12px }
 h2 { margin-top: 20px; margin-bottom: 12px; }
-.controls { display:flex; gap:12px; align-items:center; margin-bottom:12px }
+.controls { display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap: wrap }
 select { padding:8px; font-size:14px }
+.logging-toggle { display:flex; align-items:center; gap:6px; cursor:pointer; font-weight:500 }
+.logging-toggle input[type="checkbox"] { cursor:pointer; width:18px; height:18px }
+.hero-faces { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap }
+.hero-face-item { display: flex; flex-direction: column; align-items: center; gap: 6px }
+.dice-icon { width: 20px; height: 20px; background: #fff; border: 0px solid #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; position: relative; font-size: 28px; }
+.dice-1::after { content: '⚀'; }
+.dice-2::after { content: '⚁'; }
+.dice-3::after { content: '⚂'; }
+.dice-4::after { content: '⚃'; }
+.dice-5::after { content: '⚄'; }
+.dice-6::after { content: '⚅'; }
+.hero-face-label { font-weight: 500; font-size: 14px; color: #333 }
 .dice-row { display:flex; gap:12px; margin-bottom: 12px }
 .die-box { background: white; border-radius:8px; padding:8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
 .face-buttons { display:flex; gap:6px; flex-wrap:wrap }
@@ -12,10 +24,17 @@ select { padding:8px; font-size:14px }
 .face-btn.active, .random-btn.active { background:#3b82f6; color:white; border-color: #3b82f6 }
 .roll-button { display:block; margin: 12px 0; padding:10px 14px; font-weight:700; background:#10b981; color:white; border:none; border-radius:8px; cursor:pointer }
 .roll-button:hover { background:#059669 }
+.modifiers-box { background: white; border-radius:8px; padding:12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 12px }
+.modifier-toggle { display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:500 }
+.modifier-toggle input[type="checkbox"] { cursor:pointer; width:18px; height:18px }
+.logs-box { background: white; border-radius:8px; padding:12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 12px; max-height: 300px; overflow-y: auto; font-family: monospace; font-size: 12px }
+.log-line { padding: 4px 0; border-bottom: 1px solid #e5e7eb; line-height: 1.4 }
+.log-line:last-child { border-bottom: none }
 .results-table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06) }
 .results-table th { background: #f3f4f6; font-weight: 600; padding: 12px; text-align: left; border-bottom: 2px solid #e5e7eb }
 .results-table td { padding: 12px; border-bottom: 1px solid #e5e7eb }
 .results-table tr:last-child td { border-bottom: none }
 .results-table tr:hover { background: #f9fafb }
 .abilities { margin-top:8px }
+
 

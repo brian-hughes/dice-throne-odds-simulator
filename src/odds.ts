@@ -1,9 +1,15 @@
 import type { Hero, Ability, Face } from './heroes'
+import { TRIALS } from './constants'
 
 export interface AbilityResult {
   ability: Ability
   activations: number
   probability: number
+}
+
+export interface SimulationResult {
+  results: AbilityResult[]
+  initialRolls?: number[][] // [trial][die] = die value
 }
 
 // Roll a standard D6 (1-6)
@@ -17,9 +23,11 @@ export function dieNumberToFace(dieNum: number, hero: Hero): Face {
 }
 
 // Fixed dice array: either a die number (1-6) or null meaning random this roll
-export function simulate(hero: Hero, fixedDice: Array<number | null>, trials = 10000): AbilityResult[] {
+export function simulate(hero: Hero, fixedDice: Array<number | null>, trials = TRIALS, sixItEnabled = false, enableLogging = false): SimulationResult {
   const results: Map<string, number> = new Map()
   hero.abilities.forEach(a => results.set(a.name, 0))
+
+  const initialRolls: number[][] = enableLogging ? [] : []
 
   for (let t = 0; t < trials; t++) {
     const rolledNumbers: number[] = []
@@ -29,12 +37,32 @@ export function simulate(hero: Hero, fixedDice: Array<number | null>, trials = 1
       else rolledNumbers.push(rollDie())
     }
 
+    // Log initial rolls if enabled
+    if (enableLogging) {
+      initialRolls.push([...rolledNumbers])
+    }
+
     // Convert die numbers to face strings
     const rolledFaces: Face[] = rolledNumbers.map(n => dieNumberToFace(n, hero))
 
     // Evaluate each ability
     hero.abilities.forEach(a => {
-      if (checkAbilityActivated(a, rolledFaces, rolledNumbers)) {
+      let activated = checkAbilityActivated(a, rolledFaces, rolledNumbers)
+
+      // Check Six-It variants: swap each die to 6 one at a time
+      if (!activated && sixItEnabled) {
+        for (let dieIdx = 0; dieIdx < 5; dieIdx++) {
+          const modifiedNumbers = [...rolledNumbers]
+          modifiedNumbers[dieIdx] = 6
+          const modifiedFaces = modifiedNumbers.map(n => dieNumberToFace(n, hero))
+          if (checkAbilityActivated(a, modifiedFaces, modifiedNumbers)) {
+            activated = true
+            break
+          }
+        }
+      }
+
+      if (activated) {
         results.set(a.name, (results.get(a.name) || 0) + 1)
       }
     })
@@ -45,7 +73,7 @@ export function simulate(hero: Hero, fixedDice: Array<number | null>, trials = 1
     const activates = results.get(a.name) || 0
     out.push({ ability: a, activations: activates, probability: activates / trials })
   })
-  return out
+  return { results: out, initialRolls: enableLogging ? initialRolls : undefined }
 }
 
 function checkAbilityActivated(ability: Ability, rolledFaces: Face[], rolledNumbers?: number[]): boolean {

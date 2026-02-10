@@ -68,11 +68,9 @@ export const heroes: Hero[] = [
       { name: 'SKYBOUND', condition: { requiredFaces: { 'SOAR': 2, 'ION': 2 }, description: 'Core ability' } },
       { name: 'INFLUENTIAL', condition: { requiredFaces: { 'ION': 4 }, description: 'Core ability' } },
       { name: 'HIGH ALTITUDE', condition: { requiredFaces: { 'ION': 5 }, description: 'Core ability' } },
-      { name: 'HIGH ALTITUDE', condition: { requiredFaces: { 'ION': 5 }, description: 'Core ability' } },
       { name: 'UNDERDOG', condition: { requiredFaces: { 'TOUCH': 3, 'ION': 2 }, description: 'Upgrade ability' } },
       { name: 'TO THE CLOUDS', condition: { requiredFaces: { 'SOAR': 3, 'ION': 2 }, description: 'Upgrade ability' } },
       { name: 'RECIPROCATE', condition: { requiredFaces: { 'ION': 3 }, description: 'Upgrade ability' } },
-      { name: 'UNDERDOG', condition: { requiredFaces: { 'TOUCH': 3, 'ION': 2 }, description: 'Upgrade ability' } },
     ],
   },
 ]
