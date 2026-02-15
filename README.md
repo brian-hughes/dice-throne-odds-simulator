@@ -1,14 +1,16 @@
 # Dice Throne Simulator
 
-Static TypeScript app that simulates 5 custom dice for a chosen hero and runs 10000 trials to estimate ability activation probabilities.
+Static TypeScript app that simulates 5 custom dice for a chosen hero and runs X trials to estimate ability activation probabilities.
 
-Quick start:
+To compile:
 
 ```bash
 npm install
 npm run build
-# open dist/index.html in your browser (file:// is fine)
+# open dist/index.html or dist/index-standalone.html your browser
 ```
+
+Alternatively you can download the `dt-odds-simulator.html` file which is a copy of the built 'index-standalone.html' from the dist directory.
 
 Notes:
 - Edit `src/heroes.ts` to define custom die faces and abilities per hero.
